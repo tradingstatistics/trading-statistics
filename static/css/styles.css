@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+/* elements */
+body{
+    overflow-x: hidden;
+    /* overflow-y: hidden; */
+    /* height: 100vh; */
+    /* width: 100vw; */
+    background-color: #17202A;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    /* position: fixed; top: 0; left: 0; */
+}
+html{
+  /* overflow-x: hidden; */
+  /* overflow-y: hidden; */
+  /* height: 100%; */
+  /* width: 100%; */
+}
+
+/* pseudo elements */
+::-webkit-scrollbar {
+  /* width: 0px; */
+}
+
+.btn-rounded{
+    border-radius: 50vh;
+}
+.f-8{ font-size: 8px;}
+.f-10{ font-size: 10px;}
+.f-12{ font-size: 12px;}
+.f-14{font-size: 14px}
+.f-15{font-size: 15px}
+.f-16{font-size: 16px}
+.f-18{font-size: 18px}
+.f-20{font-size: 20px}
+.f-40{font-size: 40px}
+
+a:link, a:visited, a:active{
+  text-decoration: none;
+ color: rgba(255, 255, 255, 0.8) ;
+}
+a:hover{
+  text-decoration: none;
+  color:rgba(255, 255, 255, 1) ;
+}
+.bg-yellow{
+  background-color: #FFFF00;
+}
+.bg-green{
+  background-color: #00B74A;
+}
+.bg-darken{
+  background-color: #1c2331;
+}
+.bg-red{
+  background-color: #F93154;
+}
+
+.custom-btn{
+  min-width: 100%
+}
+.custom-list{
+  /* height: 60%; */
+  height: 65vh;
+  /* width: 100vw; */
+  /* height:600px; */
+  overflow-y: scroll;
+  /* overflow:auto */
+}
+.btn-outline-yellow2{
+  border:  2px; 2px;
+  border-style: solid;
+  border-color: #FFFF00;
+}
+.table thead th{
+  border-bottom: 0px;
+}
+.text-yellow{
+  color: #FFFF00;
+}
+.badge-yellow{
+  color: #fff !important;
+  background-color: yellow !important;
+}
+
+.golden-rate{
+  box-shadow:0px 0px 0px 2px yellow inset;
+}
+.silver-rate{
+  box-shadow:0px 0px 0px 2px green inset;
+}

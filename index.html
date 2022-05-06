@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height,initial-scale=1">
+    <title>Trader Statistics</title>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.bundle.min.js" ></script>
+    <script src="static/js/bootstrap.min.js" ></script>
+    <script src="static/js/mithril.js"></script>
+    <script src="static/js/toastr.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <link rel="stylesheet" href="static/css/font-awesome.min.css" >
+    <link rel="stylesheet" href="static/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="static/css/bootstrap-grid.min.css" >
+    <link rel="stylesheet" href="static/css/mdbootstrap.min.css" >
+    <link rel="stylesheet" href="static/css/toastr.min.css" >
+    <link rel="stylesheet" href="static/css/styles.css" >
+  </head>
+  <body>
+    <!-- <h1 class='text-white'>Welcome to My Awesome App</h1> -->
+      <!-- <div  id="firebaseui-auth-container"></div>
+      <div id="loader">Loading...</div> -->
+      <span id="app"></span>
+  </body>
+<script type="module">
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.11/firebase-analytics.js";
+// import { getAuth } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js"
+
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBpLus8MEi6oIlyABcuuenR1lNt4BuEzYE",
+  authDomain: "trader-statistics.firebaseapp.com",
+  projectId: "trader-statistics",
+  storageBucket: "trader-statistics.appspot.com",
+  messagingSenderId: "455587626581",
+  appId: "1:455587626581:web:28d0710195b0afa2571edc",
+  measurementId: "G-PD378BXZ08"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  // Initialize Cloud Firestore and get a reference to the service
+  const db = firebase.firestore();
+
+
+
+  // const auth = firebase.auth()
+
+  // auth().signInWithEmailAndPassword("tonmelodicmetal@gmail.com", "suelliton110886")
+  // .then((userCredential) => {
+  //   // Signed in
+  //   var user = userCredential.user;
+  //   console.log("user", user)
+  //   // ...
+  // })
+  // .catch((error) => {
+  //   var errorCode = error.code;
+  //   var errorMessage = error.message;
+  // });
+
+
+
+
+// Is there an email link sign-in?
+// if (ui.isPendingRedirect()) {
+//   ui.start('#firebaseui-auth-container', uiConfig);
+// }
+// // This can also be done via:
+// if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+//   ui.start('#firebaseui-auth-container', uiConfig);
+// }
+
+  //
+  //
+  //
+  // var Login = {
+  //   checking: true,
+  //   oninit: vn=>{
+  //     firebase.auth().onAuthStateChanged((user) => {
+  //       if (user) {
+  //         App.user=user
+  //         // User is signed in, see docs for a list of available properties
+  //         // https://firebase.google.com/docs/reference/js/firebase.User
+  //         var uid = user.uid;
+  //         console.log("usuario logado", user)
+  //         Login.checking = false;
+  //         m.redraw()
+  //       } else {
+  //         Login.checking = false;
+  //         m.redraw()
+  //         console.log("usuario deslogado")
+  //       }
+  //     });
+  //   },
+  //   oncreate: vn=>{
+  //     var ui = new firebaseui.auth.AuthUI(firebase.auth());
+  //     ui.start('#firebaseui-auth-container', {
+  //     signInOptions: [
+  //       {
+  //         provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+  //         signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD
+  //       }
+  //     ],
+  //     callbacks: {
+  //        signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+  //          console.log("autresult",authResult)
+  //          m.redraw();
+  //          return false;
+  //        },
+  //        uiShown: function() {
+  //          document.getElementById('loader').style.display = 'none';
+  //        }
+  //      },
+  //   });
+  //
+  //   },
+  //   view: vn =>{
+  //
+  //       return m(".float-center.mt-5.pt-5",{"align":"center"},
+  //                 m("img.img-fluid",
+  //                       {"id":"loader","src":"https://mir-s3-cdn-cf.behance.net/project_modules/disp/35771931234507.564a1d2403b3a.gif"}),
+  //                 m(".float-center.mt-5.pt-5"+(Login.checking == true?".invisible":".visible"),{"id":"firebaseui-auth-container"})
+  //               )
+  //
+  //   }
+  // }
+
+
+  var Header = {
+    view: vn =>{
+      return  m(".nav.navbar.navbar-sm.bg-dark.bg-gradient.py-0",
+                  m("a.nav-link",{"href":window.location.href},m("h1.navbar-brand.bold.text-info","Trading Statistics")),
+                  m("a.nav-link.text-success",{
+                    onclick: evt=>{
+                        Pairs.update()
+                    }
+                  },"Atualizar")
+                )
+    }
+  }
+
+  var Pairs = {
+      pairs:[],
+      selected: null,
+      oninit:vn=>{
+        setInterval(
+          Pairs.update()
+        ,1000*60*3)
+        // db.collection("pairs").doc("EURUSD")
+        // .onSnapshot((doc) => {
+        //     console.log("Current data: ", doc.data());
+        // });
+      },
+      update: vn =>{
+        console.log("update")
+        db.collection("pairs").orderBy("id").get().then((querySnapshot) => {
+          var count = 0
+        querySnapshot.forEach((doc) => {
+            // console.log(`${doc.id} => ${doc.data()}`);
+            // console.log(doc.data())
+            Pairs.pairs.push(doc.data());
+            if (count < 5){
+              Pairs.pairs[count].listed = true
+            }else{
+              Pairs.pairs[count].listed = false
+            }
+            count = count+1
+        });
+        Pairs.selected = Pairs.pairs[0]
+        m.redraw()
+      })
+      },
+      view: vn =>{
+        return m(".container",
+                m(".d-flex.flex-wrap",
+                    Pairs.pairs.map(pair =>{
+                      return pair.listed == true ?
+                              m("",
+                                m(".btn.btn-sm.text-center"+(Pairs.selected.name == pair.name ? ".btn-primary": ".btn-light"),{
+                                  onclick: evt =>{
+                                    Pairs.selected = pair
+                                    m.redraw()
+                                  }
+                                }
+                                , pair.name)
+                      ): null
+                    }),
+                    // m(".col-2",
+                        m(".btn.btn-sm.btn-secondary",  {
+                            "data-toggle": "collapse",
+                           "data-target": "#all-pairs",
+                           "aria-expanded": true,
+                           "aria-controls": "all-pairs",
+                         },m("font-weight-bold","Mais..."))
+                     // )
+                )
+              )
+      }
+  }
+
+  var AllPairs = {
+        view: vn =>{
+          return m(".collapse.container",{"id":"all-pairs"},
+                  m(".row",
+                      Pairs.pairs.map(pair =>{
+                        return m("",
+                                m(".btn.btn-sm.text-black"+(pair.listed  ?  ".btn-primary": ".btn-light"),{
+                                  onclick: evt =>{
+                                    pair.listed = !pair.listed
+                                    m.redraw()
+                                  }
+                                }
+                                , pair.name)
+                      )
+                      })
+                  )
+                )
+        }
+      }
+
+  var General = {
+        card: (label,percent,type)=>{
+          if (type == "forces"){
+              var color_card = (percent < 20 ?".btn-outline-success":".btn-outline-danger")
+              var color_text = (percent < 20 ?".text-success":".text-danger")
+              var color_progress = (percent < 20 ?".bg-success":".bg-danger")
+          }else{
+              var color_card = (percent > 50 ?".btn-outline-success":".btn-outline-danger")
+              var color_text = (percent > 50 ?".text-success":".text-danger")
+              var color_progress = (percent > 50 ?".bg-success":".bg-danger")
+          }
+          return m(".shadow.mb-4"+color_card,
+                    m(".card-header.py-3",m("h6.m-0.font-weight-bold.text-white",label)),
+                    m(".card-body.bg-darken"+color_card,
+                        m("h2"+color_text, percent+"%"),
+                        m(".progress",{"style":{"height":"20px"}},
+                          m(".progress-bar"+color_progress,
+                              {"role":"progressbar","style":{"width": percent+"%"}, "aria-valuenow":"25", "aria-valuemin":"0", "aria-valuemax":"100"}
+                          )
+                        )
+                    )
+                  )
+        },
+        view: vn =>{
+          return m(".container",
+                      m(".row.btn-outline-info",
+                          m(".col",m("h2.ml-2.mt-2.text-white", "Geral")),
+                      ),
+                      // Rectangles.rectangles == 0 ?  m("h6.text-white.ml-4", "Não há rectangles no momento"):
+
+                      m("h4.text-white.mt-3","Pavios"),
+                      m(".row",
+                        m(".col-4",
+                          General.card("Pavios M1",Pairs.selected.percentual_wicks_m1,"wicks")
+                        ),
+                        m(".col-4",
+                          General.card("Pavios M5",Pairs.selected.percentual_wicks_m5,"wicks")
+                        ),
+                        m(".col-4",
+                          General.card("Pavios M15",Pairs.selected.percentual_wicks_m15,"wicks")
+                        )
+                      ),
+                      m("h4.text-white.mt-3","Velas de força"),
+                      m(".row",
+                        m(".col-4",
+                          General.card("Força M1",Pairs.selected.percentual_forces_m1,"forces")
+                        ),
+                        m(".col-4",
+                          General.card("Força M5",Pairs.selected.percentual_forces_m5,"forces")
+                        ),
+                        m(".col-4",
+                          General.card("Força M15",Pairs.selected.percentual_forces_m15,"forces")
+                        )
+                      ),
+                      m("h4.text-white.mt-3","Pullbacks"),
+                      m(".row",
+                        m(".col-4",
+                          General.card("Pullbacks M1",Pairs.selected.percentual_pullbacks_m1,"pullbacks")
+                        ),
+                        m(".col-4",
+                          General.card("Pullbacks M5",Pairs.selected.percentual_pullbacks_m5,"pullbacks")
+                        ),
+                        m(".col-4",
+                          General.card("Pullbacks M15",Pairs.selected.percentual_pullbacks_m15,"pullbacks")
+                        )
+                      ),
+                      m(".row.mt-5",
+                        m(".col.text-justify",
+                          m("h5.text-info", "Percentual de pavios"),
+                          m("p.text-white","Indica o percentual de pavios em relação ao tamanho do corpo, quanto maior o percentual de pavios melhor para retrações."),
+                          m("h5.text-info", "Percentual de velas de força"),
+                          m("p.text-white","Indica o desvio do tamanho do corpo das velas em relação a média aritmética do tamanho dos corpos das últimas 3 horas, ou seja, se o tamanho de determinada vela for 2x maior que a média então é considerada vela de força."),
+                          m("p.text-white","Quanto menor o percentual mais 'equilibrado' está o mercado, indicando assim que não existem movimentos bruscos."),
+                          m("h5.text-info", "Percentual de pullbacks"),
+                          m("p.text-white","Indica o quanto pullbacks(retração) de primeira vela estão sendo respeitados, não levando em conta nenhuma outro fator, apenas se ao romper uma taxa de máxima/mínima de um timeframe maior e voltar na zona ela é respeitada, retraindo na taxa."),
+                          m("p.text-white","Para pullbacks de M15 são usadas maximas e mínimas de velas de H1, para pullbacks de M5 maximas e mínimas de M30 e para pullbacks de M1 são usadas maximas e mínimas de M15."),
+                          m("h5.text-info", "Dicas"),
+                          m("ul",
+                            m("li.text-white", "Observar se o percentual de pavios é maior que 50%, no mínimo."),
+                            m("li.text-white", "Observar se o percentual de velas de força é menor que 10%."),
+                            m("li.text-white", "Observar se o percentual de pullbacks é maior que 50%."),
+                            m("li.text-white", "Observar os outros indicadores de operacionais e ver se estão com uma boa assertividade."),
+                            m("li.text-white","Optar por operar em timeframes maiores a depender da assertividade."),
+                            m("li.text-white","Se as taxas CPFEs de um par estão com assertividade maior que 70% e existe um percentual de pavios maior que 55% e uma taxa de velas de força de 8%, então é um ótimo par para se operar."),
+                            m("li.text-white","Atente-se para o timeframe que mais lhe agrade e que tenha a maior assertividade estatística."),
+                          )
+                        )
+                      )
+                  )
+        }
+      }
+
+  var TableGodline = {
+      get_color: (timeframe)=>{
+        if (timeframe == 15){
+          return ".badge-secondary"
+        }else if(timeframe == 5){
+          return ".badge-info"
+        }else if(timeframe == 1){
+          return ".badge-success"
+        }
+      },
+      view: vn =>{
+        return m(".table.align-middle.mb-0.bg-darken",
+                  m("thead.bg-darken.text-white",
+                    m("tr",
+                      m("th.py-1.my-0", "Time"),
+                      m("th.py-1.my-0", "Assert"),
+                      m("th.py-1.my-0", "Sentimento"),
+                      m("th.py-1.my-0", "Taxa"),
+                    )
+                  ),
+                  m("tbody",
+                    vn.attrs.godlines.map((god) =>{
+                      return m("tr",
+                                m("td",
+                                m(".badge.rounded-pill.p-2"+TableGodline.get_color(god.timeframe),
+                                 god.timeframe)
+                                ),
+                                m("td",
+                                m(".badge.rounded-pill.p-2"+(god._assert > 50 ? ".badge-success":".badge-danger"),
+                                 god._assert)
+                                ),
+                                m("td",m(".badge.rounded-pill.p-2"+(god.sentiment == 50?".badge-warning":(god.sentiment > 50 ? ".badge-success":".badge-danger")),
+                                (god.sentiment < 50 ? (100-god.sentiment): god.sentiment) )
+                                ),
+                                m("td",
+                                m(".badge.rounded-pill.p-2.badge-light",
+                                 god.rate)
+                                ),
+                              )
+                    }),
+                  )
+                  )
+                }
+    }
+
+  var Godlines = {
+    card_assert: (assert, time)=>{
+      return m(".row"+(assert >= 60 ? ".btn-outline-success":".btn-outline-danger"),
+                m(".col-8",m("h6.font-weight-bold.mt-4.ml-3","Assertividade "+time)),
+                m(".col-4",m("h1.font-weight-bold.mt-2"+(assert >= 60 ? ".text-success":".text-danger"),assert+"%"),),
+              )
+    },
+    view: vn =>{
+      return m(".container",
+                  m(".row.btn-outline-info",
+                      m(".col",m("h2.ml-2.mt-2.text-white", "Godlines")),
+                      // m(".col",m(".h5.font-weight-bold.mt-2"+(Pairs.selected._assert_godlines > 60 ? ".text-success":".text-danger"),Pairs.selected._assert_godlines+"%")),
+
+                  ),
+                  Pairs.selected.operatives.godlines.length == 0 ?
+                    m("h6.text-white.ml-4", "Não há godlines no momento"):
+                    Godlines.card_assert(Pairs.selected._assert_godlines,"Geral"),
+                    m(".row"+(Pairs.selected._assert_godlines >= 60 ? ".btn-outline-success":".btn-outline-danger"),
+                      m(".col",
+                          m(TableGodline,{godlines:Pairs.selected.operatives.godlines.filter((god)=>{return god.timeframe == 15 })})
+                      ),
+                      m(".col",
+                          m(TableGodline,{godlines:Pairs.selected.operatives.godlines.filter((god)=>{return god.timeframe == 5 })})
+                      ),
+                      m(".col",
+                          m(TableGodline,{godlines:Pairs.selected.operatives.godlines.filter((god)=>{return god.timeframe == 1 })})
+                      ),
+                    ),
+                    m(".row.mt-4",
+                      m(".col.text-justify",
+                        m("h5.text-info", "Godlines"),
+                        m("p.text-white","Godlines se referem a toda zona de preço em que há uma grande rejeição, ou seja, com uma concentração muito grande de pavios na zona."),
+                        m("p.text-white","A godline pode acontecer em qualquer timeframe, é uma zona de preço geralmente no meio de uma lateralização, existem várias projeções de fibonacci apontando pra mesma faixa de preços, a qual coincide também com correções de fibonacci de 50% e de 61.8% dos movimentos de lateralização."),
+                        m("h5.text-info", "Como operar"),
+                        m("p.text-white", "Por ser uma zona de briga de preços, deve se optar por operar pullbacks nas taxas, sabendo que uma vez rompida(sem vela de força) no primeiro toque tende a retrair."),
+                        m("h5.text-info","Assertividade"),
+                        m("p.text-white", "Deve se levar em conta a assertividade da taxa, que indica a rejeição ou percentual de retração x rompimentos, em outras palavras, se a assertividade estiver alta, indica que o preço está retraindo mais do que rompendo aquela taxa. Por outro lado a assertividade geral leva em consideração a média aritmética das taxas com mais de 50% de assertividade do dia atual e do dia anterior, indicando a probabilidade geral do par."),
+                        m("h5.text-info","Sentimento"),
+                        m("p.text-white", "O sentimento indica qual direção está respeitando mais a retração, quanto mais longe de 50% mais deve ser considerado, pois se o sentimento está 80% verde, não se deve operar PUT naquela taxa e vice-versa. Quanto mais proximo de 50% maior a chance de respeitar pros 2 lados"),
+                        m("h5.text-info", "Cores e percentuais"),
+                        m("p.text-white","Taxas com assertividade cor verde indicam que aquela é uma boa taxa para operar, se vermelhas indicam que não se deve operar ou operar com cautela naquela taxa."),
+                        m("p.text-white","Taxas com sentimento cor verde indicam que aquela é uma boa taxa para CALL, se vermelhas indicam que é uma boa taxa para PUT, se cor laranja, pode-se operar os dois."),
+                        m("h5.text-info", "Dicas"),
+                        m("ul",
+                          m("li.text-white","Esperar rompimentos maiores que 50% da vela."),
+                          m("li.text-white","Falsos rompimentos de +- 25% da vela confluindo com o sentimento são bastante assertivos."),
+                          m("li.text-white","Não operar quando a vela que busca a taxa possuir pavio oposto ao lado que busca a taxa."),
+                          m("li.text-white","Observar se a vela que busca a taxa possui picos de vela, ou seja movimentação constante de baixo pra cima e vice-versa."),
+                        )
+                        )
+                      )
+
+
+              )
+    }
+  }
+
+  var TableSymmetry = {
+      get_color_status: (sym)=>{
+        if(sym.status == "loss"){
+          return ".badge-danger"
+        }else if (sym.status == "win"){
+          return ".badge-success"
+        }
+        return ".badge-darken"
+      },
+      get_color_timeframe:(sym) =>{
+        if(sym.timeframe == "H1"){
+          return ".badge-info"
+        }else if(sym.timeframe == "M30"){
+          return ".badge-warning"
+        }else if(sym.timeframe == "M15"){
+          return ".badge-secondary"
+        }
+      },
+      get_color_operation: (sym) =>{
+        if(sym.operation == "M1"){
+          return ".badge-success"
+        }else if(sym.operation == "M5"){
+          return ".badge-info"
+        }else if(sym.operation == "M15"){
+          return ".badge-secondary"
+        }
+      },
+      view: vn =>{
+        if(vn.attrs.timeframe == "H1"){
+          var assert_symmetries = Pairs.selected._assert_symmetries_h1
+        }else if (vn.attrs.timeframe == "M30"){
+          var assert_symmetries = Pairs.selected._assert_symmetries_m30
+        }else if (vn.attrs.timeframe == "M15"){
+          var assert_symmetries = Pairs.selected._assert_symmetries_m15
+        }
+        return m(".table.align-middle.mb-0.bg-darken",
+                  m("thead.bg-darken.text-white",
+                    m("tr",
+                      m("th.py-1.my-0", "Hora"),
+                      m("th.py-1.my-0", "Time"),
+                      m("th.py-1.my-0"+(assert_symmetries >= 60 ? ".text-success":".text-danger"), "Exp"),
+                      m("th.py-1.my-0", "Taxa")
+                    )
+                  ),
+                  m("tbody",
+                    vn.attrs.symmetries.map((sym) =>{
+                      return m("tr",
+                                m("td",
+                                  m(".badge.rounded-pill.p-2.badge-outline-primary",
+                                  sym.generation_date.slice(10,16))
+                                ),
+                                m("td",
+                                m(".badge.rounded-pill.p-2"+TableSymmetry.get_color_timeframe(sym),
+                                 sym.timeframe)
+                                ),
+                                m("td",
+                                m(".badge.rounded-pill.p-2"+TableSymmetry.get_color_operation(sym),
+                                 sym.operation)
+                                ),
+                                m("td",
+                                m(".badge.rounded-pill.p-2"+TableSymmetry.get_color_status(sym),
+                                 sym.rate)
+                                ),
+                              )
+                    }),
+                  )
+                  )
+      }
+  }
+
+  var Symmetries = {
+    card_assert: (assert, time)=>{
+      return m(".row"+(assert >= 60 ? ".btn-outline-success":".btn-outline-danger"),
+                m(".col-8",m("h6.font-weight-bold.mt-4.ml-3","Assertividade "+time)),
+                m(".col-4",m("h1.font-weight-bold.mt-2"+(assert >= 60 ? ".text-success":".text-danger"),assert+"%"),),
+              )
+    },
+    view: vn =>{
+      return m(".container",
+                m(".row.btn-outline-info",
+                m(".col",m("h2.ml-2.mt-2.text-white", "Simetrias H1 - M30 - M15")),
+                // m(".col",m(".h5.font-weight-bold.mt-2"+(Pairs.selected._assert_symmetries > 60 ? ".text-success":".text-danger"),"Assertividade "+Pairs.selected._assert_symmetries+"%")),
+              ),
+              Pairs.selected.operatives.symmetries.length == 0 ?
+              m("h6.text-white.ml-4", "Não há simetrias no momento"):
+              m(".row",
+                m(".col"+(Pairs.selected._assert_symmetries_m15 >= 60 ? ".btn-outline-success":".btn-outline-danger"),
+                    Symmetries.card_assert(Pairs.selected._assert_symmetries_m15,"M15"),
+                    m(TableSymmetry,{symmetries:Pairs.selected.operatives.symmetries.filter((sym)=>{  return sym.timeframe == "M15"}),timeframe:"M15"})
+                ),
+                m(".col"+(Pairs.selected._assert_symmetries_m30 >= 60 ? ".btn-outline-success":".btn-outline-danger"),
+                    Symmetries.card_assert(Pairs.selected._assert_symmetries_m30,"M30"),
+                    m(TableSymmetry,{symmetries:Pairs.selected.operatives.symmetries.filter((sym)=>{  return sym.timeframe == "M30"}),timeframe:"M30"})
+                ),
+                m(".col"+(Pairs.selected._assert_symmetries_h1 >= 60 ? ".btn-outline-success":".btn-outline-danger"),
+                    Symmetries.card_assert(Pairs.selected._assert_symmetries_h1,"H1"),
+                    m(TableSymmetry,{symmetries:Pairs.selected.operatives.symmetries.filter((sym)=>{  return sym.timeframe == "H1"}),timeframe:"H1"})
+                )
+            ),
+            m(".row.mt-4",
+              m(".col.text-justify",
+                m("h5.text-info", "Simetrias"),
+                m("p.text-white", "Simetrias se referem à toda taxa em que dois ou mais fechamento/abertura/min/max coincidem."),
+                m("p.text-white", "Geralmente ocorre em reversões de preço, quando o preço de fechamento de uma vela de alta coincide com o preço de abertura de uma vela de baixa, este padrão aparece muito no gráfico porém nem sempre são simetrias, só são consideradas simetrias quando os preços são exatamente iguais ou possuem uma diferença de micro-pips."),
+                m("h5.text-info", "Como operar"),
+                m("p.text-white", "Simetrias de timeframes maiores devem ser operadas(retração) em timeframes menores, ou seja, simetrias de velas de 1H devem ser operadas em timeframes com expiração pra M15, simetrias de M30 devem ser operadas em M5 e simetrias de M15 devem ser operadas em M1."),
+                m("p.text-white", "Apenas o primeiro toque na simetria deve ser operado, exceto quando o primeiro toque aconteceu ainda na vela que formou a simetria, nesses casos o segundo toque pode ser pego."),
+                m("p.text-white", "Pode se optar por operar pullbacks nas simetrias, são muito assertivos, atente-se para padrões de candlesticks e aguarde romper mais que 50% da vela."),
+                m("p.text-white","Optar por simetrias com assertividade alta, ao lado de Exp(expiração) é possível verificar a assertividade para aquele timeframe naquele par."),
+                m("h5.text-info", "Cores"),
+                m("p.text-white", "Preto indica que a taxa está disponível para operação e ainda não foi tocada, verde indica que a taxa foi respeitada no primeiro toque e vermelha que foi rompida no primeiro toque."),
+              )
+            )
+            )
+    }
+  }
+
+  var TableAureas = {
+    view: vn =>{
+      return m(".table.align-middle.bg-darken",
+                m("thead.bg-darken.text-white",
+                  m("tr",
+                    m("th.py-1.my-0.text-center.btn-outline-info","Taxas"),
+                    vn.attrs.aureas.map((aurea, index) =>{
+                      if(index == vn.attrs.aureas.length-1){
+                        return m("th.py-1.my-0.text-center.btn-outline-info","Hoje ("+aurea.date.slice(8,10)+"/"+aurea.date.slice(5,7)+")")
+                      }
+                      return m("th.py-1.my-0", aurea.date.slice(8,10)+"/"+aurea.date.slice(5,7))
+                    })
+                  )
+                ),
+                m("tbody",
+                  m("td.btn-outline-info",
+                      m("tr.d-flex.align-items-center.my-5",m(".badge.p-2","Golden")),
+                      m("tr.d-flex.align-items-center.my-5",m(".badge.p-2","Silver")),
+                      m("tr.d-flex.align-items-center.my-5",m(".badge.p-2","Silver")),
+                      m("tr.d-flex.align-items-center.my-5",m(".badge.p-2","Golden")),
+                  ),
+                  vn.attrs.aureas.map((aurea, index) =>{
+                    if(index == vn.attrs.aureas.length-1){
+                      return m("td.btn-outline-info",
+                                  m("tr.d-flex.align-items-center.my-5",
+                                  m(".badge.rounded-pill.p-2"+(aurea.status_gold_up == "win"? ".badge-success":(aurea.status_gold_up == "loss"?".badge-danger":".bg-darken.golden-rate.text-white")),
+                                    aurea.gold_up)
+                                  ),
+                                  m("tr.d-flex.align-items-center.my-5",
+                                  m(".badge.rounded-pill.p-2"+(aurea.status_silver_up == "win"? ".badge-success":(aurea.status_silver_up == "loss"?".badge-danger":".bg-darken.silver-rate.text-white")),
+                                    aurea.silver_up)
+                                  ),
+                                  m("tr.d-flex.align-items-center.my-5",
+                                  m(".badge.rounded-pill.p-2"+(aurea.status_silver_down == "win"? ".badge-success":(aurea.status_silver_down == "loss"?".badge-danger":".bg-darken.silver-rate.text-white")),
+                                   aurea.silver_down)
+                                  ),
+                                  m("tr.d-flex.align-items-center.my-5",
+                                  m(".badge.rounded-pill.p-2"+(aurea.status_gold_down == "win"? ".badge-success":(aurea.status_gold_down == "loss"?".badge-danger":".bg-darken.golden-rate.text-white")),
+                                    aurea.gold_down)
+                                  )
+                        )
+                    }
+                    return m("td",
+                              m("tr.d-flex.align-items-center.my-5",
+                              m(".badge.rounded-pill.p-2"+(aurea.status_gold_up == "win"? ".badge-success":(aurea.status_gold_up == "loss"?".badge-danger":".bg-darken.text-white")),
+                                aurea.gold_up)
+                              ),
+                              m("tr.d-flex.align-items-center.my-5",
+                              m(".badge.rounded-pill.p-2"+(aurea.status_silver_up == "win"? ".badge-success":(aurea.status_silver_up == "loss"?".badge-danger":".bg-darken.text-white")),
+                                aurea.silver_up)
+                              ),
+                              m("tr.d-flex.align-items-center.my-5",
+                              m(".badge.rounded-pill.p-2"+(aurea.status_silver_down == "win"? ".badge-success":(aurea.status_silver_down == "loss"?".badge-danger":".bg-darken.text-white")),
+                               aurea.silver_down)
+                              ),
+                              m("tr.d-flex.align-items-center.my-5",
+                              m(".badge.rounded-pill.p-2"+(aurea.status_gold_down == "win"? ".badge-success":(aurea.status_gold_down == "loss"?".badge-danger":".bg-darken.text-white")),
+                                aurea.gold_down)
+                              )
+                            )
+                  }),
+                )
+                )
+              }
+  }
+
+  var Aureas = {
+    card_assert: (assert)=>{
+      return m(".row"+(assert >= 60 ? ".btn-outline-success":".btn-outline-danger"),
+                m(".col-8",m("h6.font-weight-bold.mt-4.ml-3","Assertividade")),
+                m(".col-4",m("h1.font-weight-bold.mt-2"+(assert > 60 ? ".text-success":".text-danger"),assert+"%"),),
+              )
+    },
+    view: vn=>{
+      return m(".container",
+                m(".row.btn-outline-info",
+                      m(".col",m("h2.ml-2.mt-2.text-white", "Áureas")),
+                      m(".col-1",m("h4.mt-2.font-weight-bold.float-left"+(Pairs.selected._assert_aurea > 50 ? ".text-success":".text-danger"), Pairs.selected._assert_aurea+"%")),
+                      m(".col",m("h6.mt-3.mr-3.font-weight-bold.text-success.float-right", "M15")),
+                  ),
+                  Pairs.selected.operatives.aureas.length == 0 ?  m("h6.text-white.ml-4", "Não há aureas no momento"):
+                  m(".row",
+                    m(".col",
+                        Aureas.card_assert(Pairs.selected._assert_aurea),
+                        m(TableAureas,{aureas:Pairs.selected.operatives.aureas})
+                    )
+                  ),
+                  m(".row.mt-5",
+                    m(".col.text-justify",
+                      m("h5.text-info", "Áurea"),
+                      m("p.text-white", "Operacional baseado em expansão múltipla de fibonacci, onde as taxas são geradas a partir de várias proporções baseadas na vela de 4 horas da manhã, hora em que o mercado está começando a se movimentar e definir seus movimentos iniciais que gerarão as projeções futuras."),
+                      m("h5.text-info", "Taxas silver e golden"),
+                      m("p.text-white","A taxa silver se refere a projeção 161.8% da fibonacci do intervalo entre a taxa de 200% da vela de 4 da manhã e a fibo 23.6% do intervalo entre a taxa 200% projetada para cima e a 200% projetada para baixo, verifique a foto abaixo."),
+                      m("p.text-white","A taxa golden se refere a projeção 261.8% da fibonacci do intervalo entre a taxa de 200% da vela de 4 da manhã e a fibo 23.6% do intervalo entre a taxa 200% projetada para cima e a 200% projetada para baixo, verifique a foto abaixo."),
+                      m(".row.mt-2",
+                        m(".col",
+                          m("img.img-fluid",{"src":"static/img/aurea esquema.jpg"})
+                        ),
+                        m(".col",
+                          m("h6.text-info","Linhas azuis"),
+                          m("p.text-white","São projeções de 200% do corpo da vela de 4h da manhã."),
+                          m("h6.text-warning","Linhas laranjas"),
+                          m("p.text-white","São projeções de 23.6% do intervalo entre as duas projeções de 200% do corpo da vela de 4h da manhã."),
+                          m("h6.text-success","Linhas verdes"),
+                          m("p.text-white"," Taxas silver, projeções de 161.6% do intervalo entre a projeção de 200%(linha azul) e a projeção de 23.6%(linha laranja)."),
+                          m("h6.text-yellow","Linhas amarelas"),
+                          m("p.text-white"," Taxas golden, projeções de 261.6% do intervalo entre a projeção de 200%(linha azul) e a projeção de 23.6%(linha laranja).")
+                        )
+                      ),
+                      m("h5.text-info", "Traçamento"),
+                      m("p.text-white", "Quando a vela de 4h da manhã tiver um corpo médio, as taxas serão geradas a partir da abertura e fechamento da mesma, ou seja, corpo/corpo, no caso da vela ter um corpo muito pequeno e pavios, o sistema usara pavio/pavio para o cálculo das taxas."),
+                      m("h5.text-info", "Cores"),
+                      m("p.text-white", "Verde indica que a taxa foi respeitada e vermelha que foi rompida."),
+                      m("h5.text-info", "Dicas"),
+                      m("ul",
+                        m("li.text-white","Optar por taxas geradas por velas de corpo médio e com pavio."),
+                        m("li.text-white","Taxas silver geralmente respeitam pullback quando rompem e voltam na taxa sem tocar na taxa golden, utilize uma EMA 5 para confluência."),
+                        m("li.text-white","Não operar se faltar menos de 2:30 minutos para a finalização da vela."),
+                        m("li.text-white","Aguardar o preço romper a taxa 2 ou 3 pips."),
+                        m("li.text-white","As operações mais assertivas acontece quando o preço toca a taxa mais ou menos faltando 7 minutos para finalização da vela."),
+                        m("li.text-white","Operações em que o preço busca a taxa nos primeiros minutos da vela são mais perigosas."),
+                        m("li.text-white","Se o preço chegar perto da taxa e voltar esta taxa deve ser descartada, aguarde o rompimento e analise pegar um pullback."),
+                        m("li.text-white","Nunca operar quando houver notícias de grande impacto no horário da vela atual."),
+                      )
+                    )
+                  )
+            )
+    }
+  }
+
+  var TableCpfes = {
+    get_color:(status)=>{
+        if (status=="win"){
+          return ".badge-success"
+        }else if(status=="loss"){
+          return ".badge-danger"
+        }else if(status=="canceled"){
+          return ".badge-warning"
+        }else if(status=="checked"){
+          return ".badge-info"
+        }else{
+          return ".badge-darken"
+        }
+        return ""
+    },
+    view: vn =>{
+      if(vn.attrs.target == 323){
+        var assert_cpfe = Pairs.selected._assert_cpfes323
+      }else if(vn.attrs.target == 261){
+        var assert_cpfe = Pairs.selected._assert_cpfes261
+      }
+      return m(".table.align-middle.mb-0.bg-darken",
+                m("thead.bg-darken.text-white",
+                  m("tr",
+                    m("th.py-1.my-0.px-4", "Horário"),
+                    m("th.py-1.my-0.px-4", "Alvo"),
+                    m("th.py-1.my-0.px-4", "Direção"),
+                    m("th.py-1.my-0.px-4", "Silver"),
+                    m("th.py-1.my-0.px-4"+(assert_cpfe > 60 ? ".text-success":".text-danger"), "Golden"),
+                    // m("th.py-1.my-0"+(assert_cpfe > 60 ? ".text-success":".text-danger"), "Golden "+assert_cpfe+"%")
+                  )
+                ),
+                m("tbody",
+                  vn.attrs.cpfes.map((cpf) =>{
+                    return m("tr",
+                              m("td.px-4",
+                                m(".badge.rounded-pill.p-2.badge-light",
+                                cpf.generation_date.slice(10,16))
+                              ),
+                              m("td.px-4",
+                                m(".badge.rounded-pill.p-2"+(cpf.target == 323 ? ".badge-success":".badge-secondary"),
+                                cpf.target)
+                              ),
+                              m("td.px-4",
+                                m(".badge.rounded-pill.p-2"+(cpf.direction == "up" ? ".badge-success":".badge-danger"),
+                                cpf.direction)
+                              ),
+                              m("td.px-4",
+                              m(".badge.rounded-pill.p-2"+TableCpfes.get_color(cpf.status),
+                               cpf.silver_rate)
+                              ),
+                              m("td.px-4",
+                              m(".badge.rounded-pill.p-2"+TableCpfes.get_color(cpf.status),
+                               cpf.golden_rate)
+                              ),
+                            )
+                  }),
+                )
+                )
+              }
+  }
+
+  var Cpfes = {
+    card_assert: (assert)=>{
+      return m(".row"+(assert >= 60 ? ".btn-outline-success":".btn-outline-danger"),
+                m(".col-8",m("h6.font-weight-bold.mt-4.ml-3","Assertividade")),
+                m(".col-4",m("h1.font-weight-bold.mt-2"+(assert > 60 ? ".text-success":".text-danger"),assert+"%"),),
+              )
+    },
+    view: vn =>{
+      return m(".container",
+                  m(".row.btn-outline-info",
+                      m(".col",m("h2.ml-2.mt-2.text-white", "CPFES")),
+                      m(".col",m("h6.mt-3.font-weight-bold.text-success.float-right", "M15")),
+                  ),
+                    Pairs.selected.operatives.cpfes.length == 0 ?  m("h6.text-white.ml-4", "Não há cpfes no momento"):
+                  m(".row",
+                    m(".col"+(Pairs.selected._assert_cpfes323 > 60 ? ".btn-outline-success":".btn-outline-danger"),
+                        Cpfes.card_assert(Pairs.selected._assert_cpfes323),
+                        m(TableCpfes,{cpfes:Pairs.selected.operatives.cpfes.filter((cpf)=>{  return cpf.target == 323}), target:323})
+                    ),
+                    m(".col"+(Pairs.selected._assert_cpfes261 > 60 ? ".btn-outline-success":".btn-outline-danger"),
+                        Cpfes.card_assert(Pairs.selected._assert_cpfes261),
+                        m(TableCpfes,{cpfes:Pairs.selected.operatives.cpfes.filter((cpf)=>{  return cpf.target == 261}), target:261}),
+                    ),
+                  ),
+                  m(".row.mt-4",
+                    m(".col.text-justify",
+                      m("h5.text-info", "CPFE (Conditional probability of fibonacci expansion)"),
+                      m("p.text-white", "Sigla do inglês que significa: Probabilidade condicional de expansão de fibonacci."),
+                      m("p.text-white", "É um operacional baseado em projeção de fibonacci + probabilidade condicional, em outras palavras um evento depende do acontecimento de outro evento, por exemplo: VA(evento A) e VB(evento B), a probabilidade de VA acontecer dado que VB aconteceu é de X%."),
+                      m("p.text-white","Trazendo isso para análise gráfica temos: Sabendo que o preço retraiu na expansão 161.8% da fibonacci de um determinado movimento a probabilidade do preço retrair na expansão 261.8% é de X%."),
+                      m("h5.text-info","Taxas silver e golden"),
+                      m("p.text-white","Taxas golden são as taxas em que poderemos operar quando o preço tocar apenas se o preço retraiu na taxa silver, deve atentar para a cor da taxa, só se deve operar uma taxa golden se a mesma estiver azul, indicando que a taxa silver foi respeitada, do contrário as taxas ficarão de cor laranja indicando que a taxa silver foi rompida e que a taxa golden provavelmente não respeitará também."),
+                      m("p.text-white","Temos duas tabelas, uma para o alvo 323.6% da fibonacci e outra com o 261.8% respectivamente. O alvo nada mais é que a taxa golden, a taxa silver serve apenas para confirmação da entrada na taxa golden."),
+                      m("h5.text-info","Marcação de fibonacci"),
+                      m("p.text-white","No caso deste operacional a marcação das taxas de fibonacci deve ser feita de forma um pouco diferente, deve-se puxar a estrutura de 0 a 100% na primeira vela de uma reversão em M15(corpo/pavio), logo em seguida, deve-se esticar a estrutura e onde estava a taxa 100% da fibonacci agora deve ficar a taxa 50% da fibonacci(para alvo 323) ou na 61.8%(para alvo 261). Feito isso, marca-se as novas taxas, 100%(silver) e a taxa 161.8%(golden) da estrutura."),
+                      m("p.text-white","Não há necessidade de fazer essa marcação o software já calculou milimetricamente essas taxas para não nos preocuparmos com esse traçamento."),
+                      m("h5.text-info","Cores"),
+                      m("ul",
+                        m("li.text-white","Preto indica que nenhuma das taxas foi tocada"),
+                        m("li.text-white","Azul indica que a taxa silver foi tocada e respeitou, liberando a operação na taxa golden."),
+                        m("li.text-white","Vermelho indica que a taxa silver respeitou e a taxa golden foi tocada e rompeu."),
+                        m("li.text-white","Verde indica que a taxa silver respeitou e a taxa golden já foi tocada e respeitou."),
+                        m("li.text-white","Laranja indica que a taxa silver foi tocada e não respeitou abortando a operação na taxa golden."),
+                      ),
+                      m("h5.text-info","Assertividade"),
+                      m("p.text-white","A assertividade é calculada levando em consideração os últimos 3 dias, sendo assim o fator crucial para operarmos ou não em determinado par, no cabeçalho da tabela ao lado da taxa golden pode-se verificar a assertividade do par."),
+                      m("h5.text-info","Dicas"),
+                      m("ul",
+                        m("li.text-white", "Não operar contra movimentos de tendencias muito fortes."),
+                        m("li.text-white", "Não operar quando a vela que formou a estrutura for pequena demais, quase um dogi."),
+                        m("li.text-white", "Não operar quando a vela que toca a taxa nasceu perto demais da taxa e a vela anterior deixou pouco ou nenhum pavio."),
+                        m("li.text-white", "Não operar noticias."),
+                        m("li.text-white", "Buscar pares com bastante pavio, evitar pares com muitas velas de força."),
+                        m("li.text-white", "Descartar operações em taxas que as velas se aproximam e não tocam."),
+                        m("li.text-white", "Não elimine as linhas do gráfico já tocadas, apenas mude sua opacidade ou cor para indicar que ali existiu uma taxa importante"),
+                        m("li.text-white", "Taxas golden rompidas de forma geral respeitam muito pullbacks"),
+                        m("li.text-white", "Marque as taxas silver de uma cor e as golden de outra"),
+                        m("li.text-white", "Taxa silver gerada por uma vela coincidindo com região proxima de uma taxa golden gerada por outra vela é uma ótima confluência."),
+
+
+                      )
+                      )
+                  )
+              )
+
+    }
+  }
+
+  var TableRectangles = {
+    get_color: (status)=>{
+      if (status == "win"){
+        return ".badge-success"
+      }else if(status == "loss"){
+        return ".badge-danger"
+      }
+        return ""
+    },
+    view: vn =>{
+      if(vn.attrs.target == 161){
+        var assert_rectangles_silver = Pairs.selected._assert_rectangles_silver_161
+        var assert_rectangles_golden = Pairs.selected._assert_rectangles_golden_161
+      }else if(vn.attrs.target == 200){
+        var assert_rectangles_silver = Pairs.selected._assert_rectangles_silver_200
+        var assert_rectangles_golden = Pairs.selected._assert_rectangles_golden_200
+      }
+      return m(".table.align-middle.mb-0.bg-darken",
+                m("thead.bg-darken.text-white",
+                    m("tr",
+                      m("th.py-1.my-0.px-4", "Horário"),
+                      m("th.py-1.my-0.px-4", "Alvo"),
+                      m("th.py-1.my-0.px-4", "Direção"),
+                      m("th.py-1.my-0.px-4"+(assert_rectangles_silver > 60 ? ".text-success":".text-danger"), "Silver "),
+                      m("th.py-1.my-0.px-4"+(assert_rectangles_golden > 60 ? ".text-success":".text-danger"), "Golden ")
+                    )
+                ),
+                m("tbody",
+                  vn.attrs.rectangles.map((rec) =>{
+                    return m("tr",
+                              m("td.px-4",
+                                m(".badge.rounded-pill.p-2.badge-light",
+                                rec.generation_date.slice(10,16))
+                              ),
+                              m("td.px-4",
+                                m(".badge.rounded-pill.p-2"+(rec.target == 161?".badge-info":".badge-secondary"),
+                                rec.target)
+                              ),
+                              m("td.px-4",
+                                m(".badge.rounded-pill.p-2"+(rec.direction == "up"?".badge-success":".badge-danger"),
+                                rec.direction)
+                              ),
+                              m("td.px-4",
+                              m(".badge.rounded-pill.p-2"+TableRectangles.get_color(rec.status_silver_rate),
+                               rec.silver_rate)
+                              ),
+                              m("td.px-4",
+                              m(".badge.rounded-pill.p-2"+TableRectangles.get_color(rec.status_golden_rate),
+                               rec.golden_rate)
+                              ),
+                            )
+                  }),
+                )
+                )
+              }
+  }
+
+  var Rectangles = {
+    card_assert: (max_assert, assert_silver, assert_golden)=>{
+      return m(".row"+(max_assert >= 60 ? ".btn-outline-success":".btn-outline-danger"),
+                m(".col-3",m("h6.font-weight-bold.mt-4.ml-3"+(assert_silver > 60 ? ".text-success":".text-danger"),"Silver")),
+                m(".col-3",m("h1.font-weight-bold.mt-2"+(assert_silver > 60 ? ".text-success":".text-danger"),assert_silver+"%")),
+                m(".col-3",m("h6.font-weight-bold.mt-4.ml-3"+(assert_golden > 60 ? ".text-success":".text-danger"),"Golden")),
+                m(".col-3",m("h1.font-weight-bold.mt-2"+(assert_golden > 60 ? ".text-success":".text-danger"),assert_golden+"%")),
+              )
+    },
+    view: vn =>{
+      let max_assert_161 = Math.max(Pairs.selected._assert_rectangles_silver_161, Pairs.selected._assert_rectangles_golden_161)
+      let max_assert_200 = Math.max(Pairs.selected._assert_rectangles_silver_200, Pairs.selected._assert_rectangles_golden_200)
+      return m(".container",
+                  m(".row.btn-outline-info",
+                      m(".col",m("h2.ml-2.mt-2.text-white", "Retângulos")),
+                      m(".col",m("h6.mt-3.font-weight-bold.text-success.float-right", "M15")),
+                  ),
+                  m(".row.mt-1",
+                      m(".col",m("h6.text-info.mt-1","Horários")),
+                      ["4:45","5:15","8:45","9:00","9:45","10:00","11:45","12:00","12:45","13:00","14:45","15:00"].map(hour=>{
+                        return m(".col",m(".badge.p-2.badge-primary", hour))
+                      })
+                  ),
+                    Pairs.selected.operatives.rectangles.length == 0 ?  m("h6.text-white.ml-4", "Não há rectangles no momento"):
+                  m(".row",
+                    m(".col"+(max_assert_161 > 60 ? ".btn-outline-success":".btn-outline-danger"),
+                        Rectangles.card_assert(max_assert_161,Pairs.selected._assert_rectangles_silver_161,Pairs.selected._assert_rectangles_golden_161),
+                        m(TableRectangles,{rectangles:Pairs.selected.operatives.rectangles.filter((rec)=>{return rec.target == 161}), target:161})
+                    ),
+                    m(".col"+(max_assert_200 > 60 ? ".btn-outline-success":".btn-outline-danger"),
+                        Rectangles.card_assert(max_assert_200,Pairs.selected._assert_rectangles_silver_200,Pairs.selected._assert_rectangles_golden_200),
+                        m(TableRectangles,{rectangles:Pairs.selected.operatives.rectangles.filter((rec)=>{return rec.target == 200}),target:200})
+                    ),
+                  ),
+                  m(".row.mt-4",
+                    m(".col.text-justify",
+                      m("h5.text-info", "Retângulo de ouro"),
+                      m("p.text-white", "Retângulo de ouro é um operacional baseado em projeção de fibonacci, temos duas tabelas, a primeira com alvo de 161.8%(movimento inicial + 61.8%) e a segunda com alvo de 200.0%(movimento inicial + 100%)."),
+                      m("h5.text-info", "Taxas silver e golden"),
+                      m("p.text-white", "As taxas Silver e Golden se referem à marcação da projeção usando o pavio/corpo e pavio/pavio respectivamente, optar sempre pela taxa(silver ou golden) com maior assertividade."),
+                      m("h5.text-info", "Horários"),
+                      m("p.text-white", "Das 5h as 15h existem velas mais assertivas que são mostradas na parte superior, só são geradas taxas pra essas velas."),
+                      m("h5.text-info", "Cores"),
+                      m("p.text-white", "Verde indica que a taxa foi respeitada e vermelha que foi rompida."),
+                      m("h5.text-info", "Dicas"),
+                      m("ul",
+                        m("li.text-white","Optar por taxas geradas por velas de corpo médio e com muito pavio."),
+                        m("li.text-white","Constatar que pelo menos as 5 velas anteriores possuem pavios."),
+                        m("li.text-white","Não operar contra padrões fortes de reversão para tendência mestres."),
+                        m("li.text-white","Não operar se faltar menos de 2:30 minutos para a finalização da vela."),
+                        m("li.text-white","Aguardar o preço romper a taxa 2 ou 3 pips."),
+                        m("li.text-white","As operações mais assertivas acontece quando o preço toca a taxa mais ou menos faltando 7 minutos para finalização da vela."),
+                        m("li.text-white","Operações em que o preço busca a taxa nos primeiros minutos da vela são mais perigosas."),
+                        m("li.text-white","Se o preço chegar perto da taxa e voltar esta taxa deve ser descartada, salvo casos em que uma proxima vela gere uma taxa proxima a esta, então usa-se como confluência."),
+                        m("li.text-white","Nunca operar quando houver notícias de grande inpacto no horário da vela atual."),
+                        m("li.text-white","Após noticias de grande impacto, ao formar velas elefantes, as taxas não tocadas devem ser descartadas e aguardar o mercado voltar ao curso normal."),
+                      )
+
+                    )
+                  )
+              )
+    }
+  }
+
+
+  var Tabs = {
+      tab_selected:"fibonacci",
+      view: vn =>{
+        return m(".container.mt-2",m("ul.nav.nav-tabs",{"id":"mytab","role":"tablist"},
+                  m("li.nav-item",{"role":"presentation"},
+                    m(".nav-link.text-white"+(Tabs.tab_selected == "fibonacci"? ".active.bg-primary" : ".bg-darken"),{"id":"fibonacci-tab", "data-bs-toggle":"tab","data-bs-target":"#fibonacci", "type":"button", "role":"tab", "aria-controls":"fibonacci", "aria-selected":"true",
+                      onclick: evt =>{
+                        Tabs.tab_selected = "fibonacci"
+                        m.redraw()
+                      }},
+                    "CPFES")),
+                  m("li.nav-item",{"role":"presentation"},
+                      m(".nav-link.text-white"+(Tabs.tab_selected == "rectangles"? ".active.bg-primary" : ".bg-darken"),{"id":"rectangles-tab", "data-bs-toggle":"tab","data-bs-target":"#rectangles", "type":"button", "role":"tab", "aria-controls":"rectangles", "aria-selected":"true",
+                      onclick: evt =>{
+                        Tabs.tab_selected = "rectangles"
+                        m.redraw()
+                      }
+                      },
+                      "Retângulos")),
+
+                  m("li.nav-item",{"role":"presentation"},
+                      m(".nav-link.text-white"+(Tabs.tab_selected == "aurea"? ".active.bg-primary" : ".bg-darken"),{"id":"aurea-tab", "data-bs-toggle":"tab","data-bs-target":"#aurea", "type":"button", "role":"tab", "aria-controls":"aurea", "aria-selected":"true",
+                      onclick: evt =>{
+                        Tabs.tab_selected = "aurea"
+                        m.redraw()
+                      }
+                      },
+                      "Aurea")),
+                  m("li.nav-item",{"role":"presentation"},
+                      m(".nav-link.text-white"+(Tabs.tab_selected == "symmetry"? ".active.bg-primary" : ".bg-darken"),{"id":"symmetry-tab", "data-bs-toggle":"tab","data-bs-target":"#symmetry", "type":"button", "role":"tab", "aria-controls":"symmetry", "aria-selected":"true",
+                      onclick: evt =>{
+                        Tabs.tab_selected = "symmetry"
+                        m.redraw()
+                      }
+                      },
+                      "Simetrias")),
+                  m("li.nav-item",{"role":"presentation"},
+                      m(".nav-link.text-white"+(Tabs.tab_selected == "godlines"? ".active.bg-primary" : ".bg-darken"),{"id":"godlines-tab", "data-bs-toggle":"tab","data-bs-target":"#godlines", "type":"button", "role":"tab", "aria-controls":"godlines", "aria-selected":"true",
+                      onclick: evt =>{
+                        Tabs.tab_selected = "godlines"
+                        m.redraw()
+                      }
+                      },
+                      "Godlines")),
+                  m("li.nav-item",{"role":"presentation"},
+                      m(".nav-link.text-white"+(Tabs.tab_selected == "general"? ".active.bg-primary" : ".bg-darken"),{"id":"general-tab", "data-bs-toggle":"tab","data-bs-target":"#general", "type":"button", "role":"tab", "aria-controls":"general", "aria-selected":"true",
+                      onclick: evt =>{
+                        Tabs.tab_selected = "general"
+                        m.redraw()
+                      }
+                      },
+                      "Geral")),
+
+                ),
+                m(".tab-content",
+                  m(".tab-pane.fade"+(Tabs.tab_selected == "rectangles"? ".show.active" : ""),{"id":"rectangles", "role":"tabpanel", "aria-labelledby":"rectangles-tab"},
+                      m(Rectangles)
+                  ),
+                  m(".tab-pane.fade"+(Tabs.tab_selected == "fibonacci"? ".show.active" : ""),{"id":"fibonacci", "role":"tabpanel", "aria-labelledby":"fibonacci-tab"},
+                      m(Cpfes)
+                  ),
+                  m(".tab-pane.fade"+(Tabs.tab_selected == "aurea"? ".show.active" : ""),{"id":"aurea", "role":"tabpanel", "aria-labelledby":"aurea-tab"},
+                      m(Aureas)
+                  ),
+                  m(".tab-pane.fade"+(Tabs.tab_selected == "symmetry"? ".show.active" : ""),{"id":"symmetry", "role":"tabpanel", "aria-labelledby":"symmetry-tab"},
+                      m(Symmetries)
+                  ),
+                  m(".tab-pane.fade"+(Tabs.tab_selected == "godlines"? ".show.active" : ""),{"id":"godlines", "role":"tabpanel", "aria-labelledby":"godlines-tab"},
+                      m(Godlines)
+                  ),
+                  m(".tab-pane.fade"+(Tabs.tab_selected == "general"? ".show.active" : ""),{"id":"general", "role":"tabpanel", "aria-labelledby":"general-tab"},
+                       m(General)
+                  ),
+
+                ))
+      }
+    }
+
+var App = {
+  user : null,
+  view: vn =>{
+    // if (App.user == null ){
+    //   return m(Login)
+    // }
+    return [
+              m(Header),
+              m(".container",
+                  m(".row",
+                    m(Pairs),
+                  ),
+                  m(".row",
+                    m(AllPairs),
+                  )
+                ),
+                m(Tabs)
+          ]
+  }
+}
+
+$(document).ready(() => {
+  m.mount(document.getElementById('app'), App)
+
+})
+  </script>
+</html>
