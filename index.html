@@ -93,58 +93,58 @@ const analytics = getAnalytics(app);
 
   //
   //
-  //
-  // var Login = {
-  //   checking: true,
-  //   oninit: vn=>{
-  //     firebase.auth().onAuthStateChanged((user) => {
-  //       if (user) {
-  //         App.user=user
-  //         // User is signed in, see docs for a list of available properties
-  //         // https://firebase.google.com/docs/reference/js/firebase.User
-  //         var uid = user.uid;
-  //         console.log("usuario logado", user)
-  //         Login.checking = false;
-  //         m.redraw()
-  //       } else {
-  //         Login.checking = false;
-  //         m.redraw()
-  //         console.log("usuario deslogado")
-  //       }
-  //     });
-  //   },
-  //   oncreate: vn=>{
-  //     var ui = new firebaseui.auth.AuthUI(firebase.auth());
-  //     ui.start('#firebaseui-auth-container', {
-  //     signInOptions: [
-  //       {
-  //         provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-  //         signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD
-  //       }
-  //     ],
-  //     callbacks: {
-  //        signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-  //          console.log("autresult",authResult)
-  //          m.redraw();
-  //          return false;
-  //        },
-  //        uiShown: function() {
-  //          document.getElementById('loader').style.display = 'none';
-  //        }
-  //      },
-  //   });
-  //
-  //   },
-  //   view: vn =>{
-  //
-  //       return m(".float-center.mt-5.pt-5",{"align":"center"},
-  //                 m("img.img-fluid",
-  //                       {"id":"loader","src":"https://mir-s3-cdn-cf.behance.net/project_modules/disp/35771931234507.564a1d2403b3a.gif"}),
-  //                 m(".float-center.mt-5.pt-5"+(Login.checking == true?".invisible":".visible"),{"id":"firebaseui-auth-container"})
-  //               )
-  //
-  //   }
-  // }
+  
+  var Login = {
+    checking: true,
+    oninit: vn=>{
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          App.user=user
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/firebase.User
+          var uid = user.uid;
+          console.log("usuario logado", user)
+          Login.checking = false;
+          m.redraw()
+        } else {
+          Login.checking = false;
+          m.redraw()
+          console.log("usuario deslogado")
+        }
+      });
+    },
+    oncreate: vn=>{
+      var ui = new firebaseui.auth.AuthUI(firebase.auth());
+      ui.start('#firebaseui-auth-container', {
+      signInOptions: [
+        {
+          provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD
+        }
+      ],
+      callbacks: {
+         signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+           console.log("autresult",authResult)
+           m.redraw();
+           return false;
+         },
+         uiShown: function() {
+           document.getElementById('loader').style.display = 'none';
+         }
+       },
+    });
+
+    },
+    view: vn =>{
+
+        return m(".float-center.mt-5.pt-5",{"align":"center"},
+                  m("img.img-fluid",
+                        {"id":"loader","src":"https://mir-s3-cdn-cf.behance.net/project_modules/disp/35771931234507.564a1d2403b3a.gif"}),
+                  m(".float-center.mt-5.pt-5"+(Login.checking == true?".invisible":".visible"),{"id":"firebaseui-auth-container"})
+                )
+
+    }
+  }
 
 
   var Header = {
@@ -1013,9 +1013,9 @@ const analytics = getAnalytics(app);
 var App = {
   user : null,
   view: vn =>{
-    // if (App.user == null ){
-    //   return m(Login)
-    // }
+    if (App.user == null ){
+      return m(Login)
+    }
     return [
               m(Header),
               m(".container",
