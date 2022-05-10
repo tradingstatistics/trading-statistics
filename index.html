@@ -53,27 +53,15 @@ const firebaseConfig = {
   measurementId: "G-PD378BXZ08"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   // Initialize Cloud Firestore and get a reference to the service
   const db = firebase.firestore();
 
-// Is there an email link sign-in?
-// if (ui.isPendingRedirect()) {
-//   ui.start('#firebaseui-auth-container', uiConfig);
-// }
-// // This can also be done via:
-// if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
-//   ui.start('#firebaseui-auth-container', uiConfig);
-// }
-
-  //
-  //
 
   var Login = {
     checking: true,
@@ -147,7 +135,7 @@ const analytics = getAnalytics(app);
       oninit:vn=>{
         setInterval(
           Pairs.update()
-        ,1000*60*3)
+        ,1000*60)
         // db.collection("pairs").doc("EURUSD")
         // .onSnapshot((doc) => {
         //     console.log("Current data: ", doc.data());
@@ -157,10 +145,8 @@ const analytics = getAnalytics(app);
         console.log("update")
         db.collection("pairs").orderBy("id").get().then((querySnapshot) => {
 
-          var count = 0
+        var count = 0
         querySnapshot.forEach((doc) => {
-            // console.log(`${doc.id} => ${doc.data()}`);
-            // console.log(doc.data())
             Pairs.pairs.push(doc.data());
             if (count < 5){
               Pairs.pairs[count].listed = true
@@ -169,7 +155,15 @@ const analytics = getAnalytics(app);
             }
             count = count+1
         });
-        Pairs.selected = Pairs.pairs[0]
+        if(Pairs.selected == null){
+          Pairs.selected = Pairs.pairs[0]
+        }else{
+          Pairs.pairs.map(pair =>{
+            if(Pairs.selected.name == pair.name){
+              Pairs.selected = pair
+            }
+          })
+        }
         m.redraw()
       })
       },
