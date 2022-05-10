@@ -714,7 +714,7 @@ const analytics = getAnalytics(app);
                   )
                 ),
                 m("tbody",
-                  vn.attrs.expansions.map((cpf) =>{
+                  vn.attrs.expansions.slice(0).reverse().map((cpf) =>{
                     return m("tr",
                               m("td.px-4",
                                 m(".badge.rounded-pill.p-2.badge-light",
@@ -763,11 +763,11 @@ const analytics = getAnalytics(app);
                   m(".row",
                     m(".col"+(Pairs.selected._assert_expansions_323 > 60 ? ".btn-outline-success":".btn-outline-danger"),
                         Expansions.card_assert(Pairs.selected._assert_expansions_323),
-                        m(TableExpansions,{expansions:Pairs.selected.expansions_323.reverse()})
+                        m(TableExpansions,{expansions:Pairs.selected.expansions_323})
                     ),
                     m(".col"+(Pairs.selected._assert_expansions_261 > 60 ? ".btn-outline-success":".btn-outline-danger"),
                         Expansions.card_assert(Pairs.selected._assert_expansions_261),
-                        m(TableExpansions,{expansions:Pairs.selected.expansions_261.reverse()}),
+                        m(TableExpansions,{expansions:Pairs.selected.expansions_261}),
                     ),
                   ),
                   m(".row.mt-4",
