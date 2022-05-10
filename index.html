@@ -93,7 +93,7 @@ const analytics = getAnalytics(app);
 
   //
   //
-  
+
   var Login = {
     checking: true,
     oninit: vn=>{
@@ -175,6 +175,7 @@ const analytics = getAnalytics(app);
       update: vn =>{
         console.log("update")
         db.collection("pairs").orderBy("id").get().then((querySnapshot) => {
+
           var count = 0
         querySnapshot.forEach((doc) => {
             // console.log(`${doc.id} => ${doc.data()}`);
@@ -680,7 +681,7 @@ const analytics = getAnalytics(app);
     }
   }
 
-  var TableCpfes = {
+  var TableExpansions = {
     get_color:(status)=>{
         if (status=="win"){
           return ".badge-success"
@@ -697,9 +698,9 @@ const analytics = getAnalytics(app);
     },
     view: vn =>{
       if(vn.attrs.target == 323){
-        var assert_cpfe = Pairs.selected._assert_cpfes323
+        var assert_cpfe = Pairs.selected._assert_expansions_323
       }else if(vn.attrs.target == 261){
-        var assert_cpfe = Pairs.selected._assert_cpfes261
+        var assert_cpfe = Pairs.selected._assert_expansions_261
       }
       return m(".table.align-middle.mb-0.bg-darken",
                 m("thead.bg-darken.text-white",
@@ -713,11 +714,12 @@ const analytics = getAnalytics(app);
                   )
                 ),
                 m("tbody",
-                  vn.attrs.cpfes.map((cpf) =>{
+                  vn.attrs.expansions.map((cpf) =>{
                     return m("tr",
                               m("td.px-4",
                                 m(".badge.rounded-pill.p-2.badge-light",
-                                cpf.generation_date.slice(10,16))
+                                cpf.generation_date.slice(10,16)
+                              )
                               ),
                               m("td.px-4",
                                 m(".badge.rounded-pill.p-2"+(cpf.target == 323 ? ".badge-success":".badge-secondary"),
@@ -728,11 +730,11 @@ const analytics = getAnalytics(app);
                                 cpf.direction)
                               ),
                               m("td.px-4",
-                              m(".badge.rounded-pill.p-2"+TableCpfes.get_color(cpf.status),
+                              m(".badge.rounded-pill.p-2"+TableExpansions.get_color(cpf.status),
                                cpf.silver_rate)
                               ),
                               m("td.px-4",
-                              m(".badge.rounded-pill.p-2"+TableCpfes.get_color(cpf.status),
+                              m(".badge.rounded-pill.p-2"+TableExpansions.get_color(cpf.status),
                                cpf.golden_rate)
                               ),
                             )
@@ -742,28 +744,30 @@ const analytics = getAnalytics(app);
               }
   }
 
-  var Cpfes = {
+  var Expansions = {
     card_assert: (assert)=>{
       return m(".row"+(assert >= 60 ? ".btn-outline-success":".btn-outline-danger"),
                 m(".col-8",m("h6.font-weight-bold.mt-4.ml-3","Assertividade")),
-                m(".col-4",m("h1.font-weight-bold.mt-2"+(assert > 60 ? ".text-success":".text-danger"),assert+"%"),),
+                m(".col-4",m("h1.font-weight-bold.mt-2.text-center"+(assert > 60 ? ".text-success":".text-danger"),assert+"%"),),
               )
     },
     view: vn =>{
+      if (Pairs.selected.last_update == null) return
       return m(".container",
                   m(".row.btn-outline-info",
-                      m(".col",m("h2.ml-2.mt-2.text-white", "CPFES")),
-                      m(".col",m("h6.mt-3.font-weight-bold.text-success.float-right", "M15")),
+                      m(".col-4",m("h2.ml-2.mt-2.text-white", "Expansões")),
+                      m(".col-4",m("h6.font-weight-bold.mt-3.ml-3.text-center","Atualizado em "+Pairs.selected.last_update.slice(10,16))),
+                      m(".col-4",m("h6.mt-3.font-weight-bold.text-success.float-right", "M15")),
                   ),
-                    Pairs.selected.operatives.cpfes.length == 0 ?  m("h6.text-white.ml-4", "Não há cpfes no momento"):
+                    Pairs.selected.expansions_323.length == 0 ?  m("h6.text-white.ml-4", "Não há cpfes no momento"):
                   m(".row",
-                    m(".col"+(Pairs.selected._assert_cpfes323 > 60 ? ".btn-outline-success":".btn-outline-danger"),
-                        Cpfes.card_assert(Pairs.selected._assert_cpfes323),
-                        m(TableCpfes,{cpfes:Pairs.selected.operatives.cpfes.filter((cpf)=>{  return cpf.target == 323}), target:323})
+                    m(".col"+(Pairs.selected._assert_expansions_323 > 60 ? ".btn-outline-success":".btn-outline-danger"),
+                        Expansions.card_assert(Pairs.selected._assert_expansions_323),
+                        m(TableExpansions,{expansions:Pairs.selected.expansions_323.reverse()})
                     ),
-                    m(".col"+(Pairs.selected._assert_cpfes261 > 60 ? ".btn-outline-success":".btn-outline-danger"),
-                        Cpfes.card_assert(Pairs.selected._assert_cpfes261),
-                        m(TableCpfes,{cpfes:Pairs.selected.operatives.cpfes.filter((cpf)=>{  return cpf.target == 261}), target:261}),
+                    m(".col"+(Pairs.selected._assert_expansions_261 > 60 ? ".btn-outline-success":".btn-outline-danger"),
+                        Expansions.card_assert(Pairs.selected._assert_expansions_261),
+                        m(TableExpansions,{expansions:Pairs.selected.expansions_261.reverse()}),
                     ),
                   ),
                   m(".row.mt-4",
@@ -942,7 +946,7 @@ const analytics = getAnalytics(app);
                         Tabs.tab_selected = "fibonacci"
                         m.redraw()
                       }},
-                    "CPFES")),
+                    "Expansões")),
                   m("li.nav-item",{"role":"presentation"},
                       m(".nav-link.text-white"+(Tabs.tab_selected == "rectangles"? ".active.bg-primary" : ".bg-darken"),{"id":"rectangles-tab", "data-bs-toggle":"tab","data-bs-target":"#rectangles", "type":"button", "role":"tab", "aria-controls":"rectangles", "aria-selected":"true",
                       onclick: evt =>{
@@ -987,24 +991,24 @@ const analytics = getAnalytics(app);
 
                 ),
                 m(".tab-content",
-                  m(".tab-pane.fade"+(Tabs.tab_selected == "rectangles"? ".show.active" : ""),{"id":"rectangles", "role":"tabpanel", "aria-labelledby":"rectangles-tab"},
-                      m(Rectangles)
-                  ),
+                  // m(".tab-pane.fade"+(Tabs.tab_selected == "rectangles"? ".show.active" : ""),{"id":"rectangles", "role":"tabpanel", "aria-labelledby":"rectangles-tab"},
+                  //     m(Rectangles)
+                  // ),
                   m(".tab-pane.fade"+(Tabs.tab_selected == "fibonacci"? ".show.active" : ""),{"id":"fibonacci", "role":"tabpanel", "aria-labelledby":"fibonacci-tab"},
-                      m(Cpfes)
+                      m(Expansions)
                   ),
-                  m(".tab-pane.fade"+(Tabs.tab_selected == "aurea"? ".show.active" : ""),{"id":"aurea", "role":"tabpanel", "aria-labelledby":"aurea-tab"},
-                      m(Aureas)
-                  ),
-                  m(".tab-pane.fade"+(Tabs.tab_selected == "symmetry"? ".show.active" : ""),{"id":"symmetry", "role":"tabpanel", "aria-labelledby":"symmetry-tab"},
-                      m(Symmetries)
-                  ),
-                  m(".tab-pane.fade"+(Tabs.tab_selected == "godlines"? ".show.active" : ""),{"id":"godlines", "role":"tabpanel", "aria-labelledby":"godlines-tab"},
-                      m(Godlines)
-                  ),
-                  m(".tab-pane.fade"+(Tabs.tab_selected == "general"? ".show.active" : ""),{"id":"general", "role":"tabpanel", "aria-labelledby":"general-tab"},
-                       m(General)
-                  ),
+                  // m(".tab-pane.fade"+(Tabs.tab_selected == "aurea"? ".show.active" : ""),{"id":"aurea", "role":"tabpanel", "aria-labelledby":"aurea-tab"},
+                  //     m(Aureas)
+                  // ),
+                  // m(".tab-pane.fade"+(Tabs.tab_selected == "symmetry"? ".show.active" : ""),{"id":"symmetry", "role":"tabpanel", "aria-labelledby":"symmetry-tab"},
+                  //     m(Symmetries)
+                  // ),
+                  // m(".tab-pane.fade"+(Tabs.tab_selected == "godlines"? ".show.active" : ""),{"id":"godlines", "role":"tabpanel", "aria-labelledby":"godlines-tab"},
+                  //     m(Godlines)
+                  // ),
+                  // m(".tab-pane.fade"+(Tabs.tab_selected == "general"? ".show.active" : ""),{"id":"general", "role":"tabpanel", "aria-labelledby":"general-tab"},
+                  //      m(General)
+                  // ),
 
                 ))
       }
