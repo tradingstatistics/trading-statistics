@@ -125,7 +125,7 @@ const firebaseConfig = {
                         Pairs.update()
                     }
                   },"Atualizar")
-                )
+               )
     }
   }
 
@@ -672,20 +672,14 @@ const firebaseConfig = {
         return ""
     },
     view: vn =>{
-      if(vn.attrs.target == 323){
-        var assert_cpfe = Pairs.selected._assert_expansions_323
-      }else if(vn.attrs.target == 261){
-        var assert_cpfe = Pairs.selected._assert_expansions_261
-      }
       return m(".table.align-middle.mb-0.bg-darken",
                 m("thead.bg-darken.text-white",
                   m("tr",
                     m("th.py-1.my-0.px-4", "Horário"),
-                    m("th.py-1.my-0.px-4", "Alvo"),
+                    // m("th.py-1.my-0.px-4", "Alvo"),
                     m("th.py-1.my-0.px-4", "Direção"),
-                    m("th.py-1.my-0.px-4", "Silver"),
-                    m("th.py-1.my-0.px-4"+(assert_cpfe > 60 ? ".text-success":".text-danger"), "Golden"),
-                    // m("th.py-1.my-0"+(assert_cpfe > 60 ? ".text-success":".text-danger"), "Golden "+assert_cpfe+"%")
+                    m("th.py-1.my-0.px-5", "Silver"),
+                    m("th.py-1.my-0.px-5", "Golden"),
                   )
                 ),
                 m("tbody",
@@ -696,19 +690,20 @@ const firebaseConfig = {
                                 cpf.generation_date.slice(10,16)
                               )
                               ),
+                              // m("td.px-4",
+                              //   m(".badge.rounded-pill.p-2"+(cpf.target == 323 ? ".badge-success":".badge-secondary"),
+                              //   cpf.target)
+                              // ),
                               m("td.px-4",
-                                m(".badge.rounded-pill.p-2"+(cpf.target == 323 ? ".badge-success":".badge-secondary"),
-                                cpf.target)
+                                cpf.direction == "up" ?
+                                  m("img.arrows.pl-3",{"src":"static/img/increase.png"}):
+                                  m("img.arrows.pl-3",{"src":"static/img/decrease.png"})
                               ),
-                              m("td.px-4",
-                                m(".badge.rounded-pill.p-2"+(cpf.direction == "up" ? ".badge-success":".badge-danger"),
-                                cpf.direction)
-                              ),
-                              m("td.px-4",
+                              m("td.px-5",
                               m(".badge.rounded-pill.p-2"+TableExpansions.get_color(cpf.status),
                                cpf.silver_rate)
                               ),
-                              m("td.px-4",
+                              m("td.px-5",
                               m(".badge.rounded-pill.p-2"+TableExpansions.get_color(cpf.status),
                                cpf.golden_rate)
                               ),
@@ -719,31 +714,75 @@ const firebaseConfig = {
               }
   }
 
+  var TabExpansions = {
+    tab_selected: "m5",
+    view: vn =>{
+      return m(".container.mt-2",
+                m("ul.nav.nav-tabs",{"id":"mytab-expansions","role":"tablist"},
+                    m("li.nav-item.p-0",{"role":"presentation"},
+                      m(".nav-link.text-white"+(TabExpansions.tab_selected == "m5"? ".active.bg-primary" : ".bg-darken"),{"id":"m5-tab-expansions", "data-bs-toggle":"tab","data-bs-target":"#m5-tab-expansions", "type":"button", "role":"tab", "aria-controls":"m5-tab-expansions", "aria-selected":"true",
+                        onclick: evt =>{
+                          TabExpansions.tab_selected = "m5"
+                          m.redraw()
+                        }},
+                      "M5")),
+                    m("li.nav-item",{"role":"presentation"},
+                      m(".nav-link.text-white"+(TabExpansions.tab_selected == "m15"? ".active.bg-primary" : ".bg-darken"),{"id":"m15-tab-expansions", "data-bs-toggle":"tab","data-bs-target":"#m5-tab-expansions", "type":"button", "role":"tab", "aria-controls":"m5-tab-expansions", "aria-selected":"true",
+                        onclick: evt =>{
+                          TabExpansions.tab_selected = "m15"
+                          m.redraw()
+                        }},
+                      "M15")),
+                ),
+                m(".tab-content",
+                  m(".tab-pane.fade"+(TabExpansions.tab_selected == "m5"? ".show.active" : ""),{"id":"m5-tab-expansions", "role":"tabpanel", "aria-labelledby":"m5-tab-expansions"},
+                    m(".row",
+                      m(".col",
+                        Expansions.card_assert(Pairs.selected._assert_expansions_323_m5, "M5","323"),
+                        m(TableExpansions,{expansions:Pairs.selected.expansions_323_m5.filter((exp)=>{ return exp.timeframe == 5})})
+                      ),
+                      m(".col",
+                        Expansions.card_assert(Pairs.selected._assert_expansions_261_m5,"M5", "261"),
+                        m(TableExpansions,{expansions:Pairs.selected.expansions_261_m5.filter((exp)=>{return exp.timeframe == 5})}),
+                      )
+                    ),
+                  ),
+                  m(".tab-pane.fade"+(TabExpansions.tab_selected == "m15"? ".show.active" : ""),{"id":"m15-tab-expansions", "role":"tabpanel", "aria-labelledby":"m15-tab-expansions"},
+                  m(".row",
+                    m(".col",
+                        Expansions.card_assert(Pairs.selected._assert_expansions_323_m15,"M15", "323"),
+                        m(TableExpansions,{expansions:Pairs.selected.expansions_323_m15.filter((exp)=>{ return exp.timeframe == 15})})
+                    ),
+                    m(".col",
+                        Expansions.card_assert(Pairs.selected._assert_expansions_261_m15,"M15", "261"),
+                        m(TableExpansions,{expansions:Pairs.selected.expansions_261_m15.filter((exp)=>{return exp.timeframe == 15})}),
+                    ),
+                  ),
+                  ),
+                )
+              )
+    }
+  }
+
   var Expansions = {
-    card_assert: (assert)=>{
-      return m(".row"+(assert >= 60 ? ".btn-outline-success":".btn-outline-danger"),
-                m(".col-8",m("h6.font-weight-bold.mt-4.ml-3","Assertividade")),
+    card_assert: (assert, timeframe, target)=>{
+      return m(".row.mx-0"+(assert >= 60 ? ".btn-outline-success":".btn-outline-danger"),
+                m(".col-8",m("h6.font-weight-bold.mt-4.ml-3","Assertividade "+timeframe+" "+target)),
                 m(".col-4",m("h1.font-weight-bold.mt-2.text-center"+(assert > 60 ? ".text-success":".text-danger"),assert+"%"),),
               )
     },
+
     view: vn =>{
       if (Pairs.selected.last_update == null) return
       return m(".container",
-                  m(".row.btn-outline-info",
-                      m(".col-4",m("h2.ml-2.mt-2.text-white", "Expansões")),
-                      m(".col-4",m("h6.font-weight-bold.mt-3.ml-3.text-center","Atualizado em "+Pairs.selected.last_update.slice(10,16))),
-                      m(".col-4",m("h6.mt-3.font-weight-bold.text-success.float-right", "M15")),
+                  m(".row.title-section",
+                      m(".col-8",m("h2.font-weight-bold.ml-2.mt-2.text-white", "Expansões")),
+                      m(".col-4",m("h6.font-weight-bold.mt-3.ml-3.text-info.text-center","Atualizado em "+Pairs.selected.last_update.slice(10,16))),
+
                   ),
-                    Pairs.selected.expansions_323.length == 0 ?  m("h6.text-white.ml-4", "Não há cpfes no momento"):
+                    Pairs.selected.expansions_323_m15.length == 0 ?  m("h6.text-white.ml-4", "Não há cpfes no momento"):
                   m(".row",
-                    m(".col"+(Pairs.selected._assert_expansions_323 > 60 ? ".btn-outline-success":".btn-outline-danger"),
-                        Expansions.card_assert(Pairs.selected._assert_expansions_323),
-                        m(TableExpansions,{expansions:Pairs.selected.expansions_323})
-                    ),
-                    m(".col"+(Pairs.selected._assert_expansions_261 > 60 ? ".btn-outline-success":".btn-outline-danger"),
-                        Expansions.card_assert(Pairs.selected._assert_expansions_261),
-                        m(TableExpansions,{expansions:Pairs.selected.expansions_261}),
-                    ),
+                      m(TabExpansions)
                   ),
                   m(".row.mt-4",
                     m(".col.text-justify",
@@ -985,7 +1024,8 @@ const firebaseConfig = {
                   //      m(General)
                   // ),
 
-                ))
+                )
+              )
       }
     }
 

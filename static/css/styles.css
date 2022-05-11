@@ -89,3 +89,10 @@ a:hover{
 .silver-rate{
   box-shadow:0px 0px 0px 2px green inset;
 }
+.arrows{
+  height: 30px;
+}
+.title-section{
+  border-bottom: 2px solid white;
+  border-top: 1px solid white;
+}
