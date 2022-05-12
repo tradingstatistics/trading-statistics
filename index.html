@@ -136,35 +136,30 @@ const firebaseConfig = {
         setInterval(
           Pairs.update()
         ,1000*60)
-        // db.collection("pairs").doc("EURUSD")
-        // .onSnapshot((doc) => {
-        //     console.log("Current data: ", doc.data());
-        // });
       },
       update: vn =>{
         console.log("update")
         db.collection("pairs").orderBy("id").get().then((querySnapshot) => {
-
-        var count = 0
-        querySnapshot.forEach((doc) => {
-            Pairs.pairs.push(doc.data());
-            if (count < 5){
-              Pairs.pairs[count].listed = true
+            var count = 0
+            querySnapshot.forEach((doc) => {
+                Pairs.pairs.push(doc.data());
+                if (count < 5){
+                  Pairs.pairs[count].listed = true
+                }else{
+                  Pairs.pairs[count].listed = false
+                }
+                count = count+1
+            });
+            if(Pairs.selected == null){
+              Pairs.selected = Pairs.pairs[0]
             }else{
-              Pairs.pairs[count].listed = false
+              Pairs.pairs.map(pair =>{
+                if(Pairs.selected.name == pair.name){
+                  Pairs.selected = pair
+                }
+              })
             }
-            count = count+1
-        });
-        if(Pairs.selected == null){
-          Pairs.selected = Pairs.pairs[0]
-        }else{
-          Pairs.pairs.map(pair =>{
-            if(Pairs.selected.name == pair.name){
-              Pairs.selected = pair
-            }
-          })
-        }
-        m.redraw()
+            m.redraw()
       })
       },
       view: vn =>{
@@ -772,15 +767,15 @@ const firebaseConfig = {
               )
     },
 
-    view: vn =>{
-      if (Pairs.selected.last_update == null) return
+    view: vn =>{    
+
       return m(".container",
                   m(".row.title-section",
                       m(".col-8",m("h2.font-weight-bold.ml-2.mt-2.text-white", "Expansões")),
                       m(".col-4",m("h6.font-weight-bold.mt-3.ml-3.text-info.text-center","Atualizado em "+Pairs.selected.last_update.slice(10,16))),
 
                   ),
-                    Pairs.selected.expansions_323_m15.length == 0 ?  m("h6.text-white.ml-4", "Não há cpfes no momento"):
+                    (Pairs.selected.expansions_323_m5.length +Pairs.selected.expansions_261_m15.length) == 0 ?  m("h6.text-white.ml-4", "Não há cpfes no momento"):
                   m(".row",
                       m(TabExpansions)
                   ),
