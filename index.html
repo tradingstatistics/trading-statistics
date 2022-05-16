@@ -721,13 +721,13 @@ const firebaseConfig = {
                           m.redraw()
                         }},
                       "M15")),
-                    m("li.nav-item.p-0",{"role":"presentation"},
-                      m(".nav-link.text-white"+(TabExpansions.tab_selected == "m5"? ".active.bg-primary" : ".bg-darken"),{"id":"m5-tab-expansions", "data-bs-toggle":"tab","data-bs-target":"#m5-tab-expansions", "type":"button", "role":"tab", "aria-controls":"m5-tab-expansions", "aria-selected":"true",
-                        onclick: evt =>{
-                          TabExpansions.tab_selected = "m5"
-                          m.redraw()
-                        }},
-                      "M5")),
+                    // m("li.nav-item.p-0",{"role":"presentation"},
+                    //   m(".nav-link.text-white"+(TabExpansions.tab_selected == "m5"? ".active.bg-primary" : ".bg-darken"),{"id":"m5-tab-expansions", "data-bs-toggle":"tab","data-bs-target":"#m5-tab-expansions", "type":"button", "role":"tab", "aria-controls":"m5-tab-expansions", "aria-selected":"true",
+                    //     onclick: evt =>{
+                    //       TabExpansions.tab_selected = "m5"
+                    //       m.redraw()
+                    //     }},
+                    //   "M5")),
 
                 ),
                 m(".tab-content",
@@ -744,16 +744,16 @@ const firebaseConfig = {
                     ),
                   ),
                   m(".tab-pane.fade"+(TabExpansions.tab_selected == "m5"? ".show.active" : ""),{"id":"m5-tab-expansions", "role":"tabpanel", "aria-labelledby":"m5-tab-expansions"},
-                    m(".row",
-                      m(".col",
-                        Expansions.card_assert(Pairs.selected._assert_expansions_323_m5, "M5","323"),
-                        m(TableExpansions,{expansions:Pairs.selected.expansions_323_m5.filter((exp)=>{ return exp.timeframe == 5})})
-                      ),
-                      m(".col",
-                        Expansions.card_assert(Pairs.selected._assert_expansions_261_m5,"M5", "261"),
-                        m(TableExpansions,{expansions:Pairs.selected.expansions_261_m5.filter((exp)=>{return exp.timeframe == 5})}),
-                      )
-                    ),
+                    // m(".row",
+                    //   m(".col",
+                    //     Expansions.card_assert(Pairs.selected._assert_expansions_323_m5, "M5","323"),
+                    //     m(TableExpansions,{expansions:Pairs.selected.expansions_323_m5.filter((exp)=>{ return exp.timeframe == 5})})
+                    //   ),
+                    //   m(".col",
+                    //     Expansions.card_assert(Pairs.selected._assert_expansions_261_m5,"M5", "261"),
+                    //     m(TableExpansions,{expansions:Pairs.selected.expansions_261_m5.filter((exp)=>{return exp.timeframe == 5})}),
+                    //   )
+                    // ),
                   ),
 
                 )
@@ -777,7 +777,7 @@ const firebaseConfig = {
                       m(".col-4",m("h6.font-weight-bold.mt-3.ml-3.text-info.text-center","Atualizado em "+Pairs.selected.last_update.slice(10,16))),
 
                   ),
-                    Pairs.selected.expansions_323_m5.length  == 0 ?  m("h6.text-white.ml-4", "Não há cpfes no momento"):
+                    Pairs.selected.expansions_323_m15.length  == 0 ?  m("h6.text-white.ml-4", "Não há cpfes no momento"):
                   m(".row",
                       m(TabExpansions)
                   ),
@@ -958,49 +958,49 @@ const firebaseConfig = {
                         m.redraw()
                       }},
                     "Expansões")),
-                  m("li.nav-item",{"role":"presentation"},
-                      m(".nav-link.text-white"+(Tabs.tab_selected == "rectangles"? ".active.bg-primary" : ".bg-darken"),{"id":"rectangles-tab", "data-bs-toggle":"tab","data-bs-target":"#rectangles", "type":"button", "role":"tab", "aria-controls":"rectangles", "aria-selected":"true",
-                      onclick: evt =>{
-                        Tabs.tab_selected = "rectangles"
-                        m.redraw()
-                      }
-                      },
-                      "Retângulos")),
+                  // m("li.nav-item",{"role":"presentation"},
+                  //     m(".nav-link.text-white"+(Tabs.tab_selected == "rectangles"? ".active.bg-primary" : ".bg-darken"),{"id":"rectangles-tab", "data-bs-toggle":"tab","data-bs-target":"#rectangles", "type":"button", "role":"tab", "aria-controls":"rectangles", "aria-selected":"true",
+                  //     onclick: evt =>{
+                  //       Tabs.tab_selected = "rectangles"
+                  //       m.redraw()
+                  //     }
+                  //     },
+                  //     "Retângulos")),
+                  //
+                  // m("li.nav-item",{"role":"presentation"},
+                  //     m(".nav-link.text-white"+(Tabs.tab_selected == "aurea"? ".active.bg-primary" : ".bg-darken"),{"id":"aurea-tab", "data-bs-toggle":"tab","data-bs-target":"#aurea", "type":"button", "role":"tab", "aria-controls":"aurea", "aria-selected":"true",
+                  //     onclick: evt =>{
+                  //       Tabs.tab_selected = "aurea"
+                  //       m.redraw()
+                  //     }
+                  //     },
+                  //     "Aurea")),
+                  // m("li.nav-item",{"role":"presentation"},
+                  //     m(".nav-link.text-white"+(Tabs.tab_selected == "symmetry"? ".active.bg-primary" : ".bg-darken"),{"id":"symmetry-tab", "data-bs-toggle":"tab","data-bs-target":"#symmetry", "type":"button", "role":"tab", "aria-controls":"symmetry", "aria-selected":"true",
+                  //     onclick: evt =>{
+                  //       Tabs.tab_selected = "symmetry"
+                  //       m.redraw()
+                  //     }
+                  //     },
+                  //     "Simetrias")),
+                  // m("li.nav-item",{"role":"presentation"},
+                  //     m(".nav-link.text-white"+(Tabs.tab_selected == "godlines"? ".active.bg-primary" : ".bg-darken"),{"id":"godlines-tab", "data-bs-toggle":"tab","data-bs-target":"#godlines", "type":"button", "role":"tab", "aria-controls":"godlines", "aria-selected":"true",
+                  //     onclick: evt =>{
+                  //       Tabs.tab_selected = "godlines"
+                  //       m.redraw()
+                  //     }
+                  //     },
+                  //     "Godlines")),
+                  // m("li.nav-item",{"role":"presentation"},
+                  //     m(".nav-link.text-white"+(Tabs.tab_selected == "general"? ".active.bg-primary" : ".bg-darken"),{"id":"general-tab", "data-bs-toggle":"tab","data-bs-target":"#general", "type":"button", "role":"tab", "aria-controls":"general", "aria-selected":"true",
+                  //     onclick: evt =>{
+                  //       Tabs.tab_selected = "general"
+                  //       m.redraw()
+                  //     }
+                  //     },
+                  //     "Geral")),
 
-                  m("li.nav-item",{"role":"presentation"},
-                      m(".nav-link.text-white"+(Tabs.tab_selected == "aurea"? ".active.bg-primary" : ".bg-darken"),{"id":"aurea-tab", "data-bs-toggle":"tab","data-bs-target":"#aurea", "type":"button", "role":"tab", "aria-controls":"aurea", "aria-selected":"true",
-                      onclick: evt =>{
-                        Tabs.tab_selected = "aurea"
-                        m.redraw()
-                      }
-                      },
-                      "Aurea")),
-                  m("li.nav-item",{"role":"presentation"},
-                      m(".nav-link.text-white"+(Tabs.tab_selected == "symmetry"? ".active.bg-primary" : ".bg-darken"),{"id":"symmetry-tab", "data-bs-toggle":"tab","data-bs-target":"#symmetry", "type":"button", "role":"tab", "aria-controls":"symmetry", "aria-selected":"true",
-                      onclick: evt =>{
-                        Tabs.tab_selected = "symmetry"
-                        m.redraw()
-                      }
-                      },
-                      "Simetrias")),
-                  m("li.nav-item",{"role":"presentation"},
-                      m(".nav-link.text-white"+(Tabs.tab_selected == "godlines"? ".active.bg-primary" : ".bg-darken"),{"id":"godlines-tab", "data-bs-toggle":"tab","data-bs-target":"#godlines", "type":"button", "role":"tab", "aria-controls":"godlines", "aria-selected":"true",
-                      onclick: evt =>{
-                        Tabs.tab_selected = "godlines"
-                        m.redraw()
-                      }
-                      },
-                      "Godlines")),
-                  m("li.nav-item",{"role":"presentation"},
-                      m(".nav-link.text-white"+(Tabs.tab_selected == "general"? ".active.bg-primary" : ".bg-darken"),{"id":"general-tab", "data-bs-toggle":"tab","data-bs-target":"#general", "type":"button", "role":"tab", "aria-controls":"general", "aria-selected":"true",
-                      onclick: evt =>{
-                        Tabs.tab_selected = "general"
-                        m.redraw()
-                      }
-                      },
-                      "Geral")),
-
-                ),
+                  ),
                 m(".tab-content",
                   // m(".tab-pane.fade"+(Tabs.tab_selected == "rectangles"? ".show.active" : ""),{"id":"rectangles", "role":"tabpanel", "aria-labelledby":"rectangles-tab"},
                   //     m(Rectangles)
