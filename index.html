@@ -143,7 +143,7 @@ const firebaseConfig = {
             var count = 0
             querySnapshot.forEach((doc) => {
                 Pairs.pairs.push(doc.data());
-                if (count < 5){
+                if (count < 10){
                   Pairs.pairs[count].listed = true
                 }else{
                   Pairs.pairs[count].listed = false
@@ -734,24 +734,41 @@ const firebaseConfig = {
                   m(".tab-pane.fade"+(TabExpansions.tab_selected == "body"? ".show.active" : ""),{"id":"m15-tab-expansions", "role":"tabpanel", "aria-labelledby":"m15-tab-expansions"},
                     m(".row",
                       m(".col",
-                          Expansions.card_assert(Pairs.selected._assert_expansions_323_m15_body, "323", "corpo"),
-                          m(TableExpansions,{expansions:Pairs.selected.expansions_323_m15_body.filter((exp)=>{ return exp.timeframe == 15})})
+                          Expansions.card_assert(
+                            Pairs.selected._assert_expansions_323_m15_body,
+                            Pairs.selected.count_wins_expansions_323_body,
+                            Pairs.selected.count_losses_expansions_323_body,
+                            "323", "corpo"),
+                          m(TableExpansions,{expansions:Pairs.selected.expansions_323_m15_body})
                       ),
                       m(".col",
-                          Expansions.card_assert(Pairs.selected._assert_expansions_261_m15_body,"261", "corpo"),
-                          m(TableExpansions,{expansions:Pairs.selected.expansions_261_m15_body.filter((exp)=>{return exp.timeframe == 15})}),
+                          Expansions.card_assert(
+                            Pairs.selected._assert_expansions_261_m15_body,
+                            Pairs.selected.count_wins_expansions_261_body,
+                            Pairs.selected.count_losses_expansions_261_body,
+                            "261", "corpo"),
+                          m(TableExpansions,{expansions:Pairs.selected.expansions_261_m15_body}),
                       ),
                     ),
                   ),
                   m(".tab-pane.fade"+(TabExpansions.tab_selected == "wick"? ".show.active" : ""),{"id":"m5-tab-expansions", "role":"tabpanel", "aria-labelledby":"m5-tab-expansions"},
                     m(".row",
                       m(".col",
-                          Expansions.card_assert(Pairs.selected._assert_expansions_323_m15_wick, "323","pavio"),
-                          m(TableExpansions,{expansions:Pairs.selected.expansions_323_m15_wick.filter((exp)=>{ return exp.timeframe == 15})})
+                          Expansions.card_assert(
+                            Pairs.selected._assert_expansions_323_m15_wick,
+                            Pairs.selected.count_wins_expansions_323_wick,
+                            Pairs.selected.count_losses_expansions_323_wick,
+                            "323","pavio"
+                          ),
+                          m(TableExpansions,{expansions:Pairs.selected.expansions_323_m15_wick})
                       ),
                       m(".col",
-                          Expansions.card_assert(Pairs.selected._assert_expansions_261_m15_wick, "261","pavio"),
-                          m(TableExpansions,{expansions:Pairs.selected.expansions_261_m15_wick.filter((exp)=>{return exp.timeframe == 15})}),
+                          Expansions.card_assert(
+                            Pairs.selected._assert_expansions_261_m15_wick,
+                            Pairs.selected.count_wins_expansions_261_wick,
+                            Pairs.selected.count_losses_expansions_261_wick,
+                            "261","pavio"),
+                          m(TableExpansions,{expansions:Pairs.selected.expansions_261_m15_wick}),
                       ),
                     ),
                   ),
@@ -762,9 +779,9 @@ const firebaseConfig = {
   }
 
   var Expansions = {
-    card_assert: (assert, target, marckup)=>{
+    card_assert: (assert,  wins, losses, target, marckup)=>{
       return m(".row.mx-0"+(assert >= 60 ? ".btn-outline-success":".btn-outline-danger"),
-                m(".col-8",m("h6.font-weight-bold.mt-4.ml-3","Assertividade | "+marckup+" | "+target)),
+                m(".col-8",m("h6.font-weight-bold.mt-4.ml-3", marckup+" | "+target+" | "+wins+" wins | "+losses+" losses")),
                 m(".col-4",m("h1.font-weight-bold.mt-2.text-center"+(assert >= 60 ? ".text-success":".text-danger"),assert+"%"),),
               )
     },
